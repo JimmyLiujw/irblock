@@ -62,7 +62,7 @@ const enum IrProtocol {
 
 //% color=#0fbc11 icon="\u272a" block="MakerBit"
 //% category="MakerBit"
-namespace makerbit {
+namespace makerbit_c {
     let irState: IrState;
 
     const IR_REPEAT = 256;
