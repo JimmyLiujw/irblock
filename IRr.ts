@@ -69,7 +69,7 @@ namespace makerbit_c {
     const IR_INCOMPLETE = 257;
     const IR_DATAGRAM = 258;
 
-    const REPEAT_TIMEOUT_MS = 920;
+    const REPEAT_TIMEOUT_MS = 220;
 
     interface IrState {
         protocol: IrProtocol;
