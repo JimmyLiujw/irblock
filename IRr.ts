@@ -59,9 +59,9 @@ const enum IrProtocol {
     //% block="NEC"
     NEC = 1,
 }
-//\u272a
-//% color=#0fbc11 icon="" block="IRblock"
-//% category="IRblock"
+//
+//% color=#0fbc11 icon="\u272a" block="IR block"
+//% category="IR block"
 namespace makerbit_c {
     let irState: IrState;
 
@@ -232,7 +232,7 @@ namespace makerbit_c {
      * @param pin IR receiver pin, eg: DigitalPin.P0
      * @param protocol IR protocol, eg: IrProtocol.Keyestudio
      */
-    //% subcategory="IR Receiver"
+    //% subcategory="IR Receiver c"
     //% blockId="makerbit_infrared_connect_receiver"
     //% block="connect IR receiver at pin %pin and decode %protocol"
     //% pin.fieldEditor="gridpicker"
