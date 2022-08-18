@@ -1,5 +1,5 @@
-//% color=#0fbc11 icon="\u272a" block="MakerBit"
-//% category="MakerBit"
+//% color=#0fbc11 icon="\u272a" block="IRBlock"
+//% category="IRBlock"
 namespace makerbit_c {
     export namespace background {
 
