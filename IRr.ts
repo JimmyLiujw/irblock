@@ -59,8 +59,8 @@ const enum IrProtocol {
     //% block="NEC"
     NEC = 1,
 }
-
-//% color=#0fbc11 icon="\u272a" block="IRblock"
+//\u272a
+//% color=#0fbc11 icon="" block="IRblock"
 //% category="IRblock"
 namespace makerbit_c {
     let irState: IrState;
