@@ -3,8 +3,8 @@
 /**
  * IR Block
  */
-//% color=#0fbc11 icon="\u272a" block="IR Block"
-//% category="IR Block"
+//% color=#0fbc11 icon="\u272a" block="IR block"
+//% category="IR block"
 namespace makerbit_c {
   let irLed: InfraredLed;
 
