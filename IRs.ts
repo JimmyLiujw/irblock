@@ -80,7 +80,7 @@ namespace makerbit_c {
    * Connects to the IR-emitting LED at the specified pin.
    * @param pin IR LED pin, eg: AnalogPin.P0
    */
-  //% subcategory="IR Sender"
+  //% subcategory="IR Sender c"
   //% blockId="makerbit_infrared_sender_connect"
   //% block="connect IR sender LED at pin %pin"
   //% pin.fieldEditor="gridpicker"
@@ -95,7 +95,7 @@ namespace makerbit_c {
    * Sends a 32bit IR datagram using the NEC protocol.
    * @param hex32bit a 32bit hex string, eg: 0x00FF02FD
    */
-  //% subcategory="IR Sender"
+  //% subcategory="IR Sender c"
   //% blockId="makerbit_infrared_sender_send_datagram"
   //% block="send IR datagram %hex32bit"
   //% weight=80
@@ -111,7 +111,7 @@ namespace makerbit_c {
    * @param address an 8bit address, eg. 0
    * @param command an 8bit command, eg. 2
    */
-  //% subcategory="IR Sender"
+  //% subcategory="IR Sender c"
   //% blockId=makerbit_infrared_sender_nec_datagram
   //% block="address %address | command %command"
   //% address.min=0 address.max=255
