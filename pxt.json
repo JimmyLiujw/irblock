@@ -11,8 +11,8 @@
         "main.ts",
         "README.md",
         "IRr.ts",
-        "background.ts"
         "IRs.ts",
+        "background.ts"        
     ],
     "testFiles": [
         "test.ts"
