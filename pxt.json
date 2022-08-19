@@ -12,6 +12,7 @@
         "README.md",
         "IRr.ts",
         "background.ts"
+        "IRs.ts",
     ],
     "testFiles": [
         "test.ts"
