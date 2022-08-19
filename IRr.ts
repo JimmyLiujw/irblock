@@ -281,7 +281,7 @@ namespace makerbit_c {
      * @param action the trigger action
      * @param handler body code to run when the event is raised
      */
-    //% subcategory="IR Receiver"
+    //% subcategory="IR Receiver c"
     //% blockId=makerbit_infrared_on_ir_button
     //% block="on IR button | %button | %action"
     //% button.fieldEditor="gridpicker"
@@ -305,7 +305,7 @@ namespace makerbit_c {
     /**
      * Returns the code of the IR button that was pressed last. Returns -1 (IrButton.Any) if no button has been pressed yet.
      */
-    //% subcategory="IR Receiver"
+    //% subcategory="IR Receiver c"
     //% blockId=makerbit_infrared_ir_button_pressed
     //% block="IR button"
     //% weight=70
@@ -321,7 +321,7 @@ namespace makerbit_c {
      * Do something when an IR datagram is received.
      * @param handler body code to run when the event is raised
      */
-    //% subcategory="IR Receiver"
+    //% subcategory="IR Receiver c"
     //% blockId=makerbit_infrared_on_ir_datagram
     //% block="on IR datagram received"
     //% weight=40
@@ -334,7 +334,7 @@ namespace makerbit_c {
      * Returns the IR datagram as 32-bit hexadecimal string.
      * The last received datagram is returned or "0x00000000" if no data has been received yet.
      */
-    //% subcategory="IR Receiver"
+    //% subcategory="IR Receiver c"
     //% blockId=makerbit_infrared_ir_datagram
     //% block="IR datagram"
     //% weight=30
@@ -351,7 +351,7 @@ namespace makerbit_c {
     /**
      * Returns true if any IR data was received since the last call of this function. False otherwise.
      */
-    //% subcategory="IR Receiver"
+    //% subcategory="IR Receiver c"
     //% blockId=makerbit_infrared_was_any_ir_datagram_received
     //% block="IR data was received"
     //% weight=80
@@ -370,7 +370,7 @@ namespace makerbit_c {
      * Returns the command code of a specific IR button.
      * @param button the button
      */
-    //% subcategory="IR Receiver"
+    //% subcategory="IR Receiver c"
     //% blockId=makerbit_infrared_button_code
     //% button.fieldEditor="gridpicker"
     //% button.fieldOptions.columns=3
