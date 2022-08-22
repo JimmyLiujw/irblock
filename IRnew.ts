@@ -172,7 +172,7 @@ namespace IRnew {
         maxBitsReceived: number;
         addressSectionBits: number;
         commandSectionBits: number;
-        allbitRecived: uint64;
+        allbitRecived: number;
         hiword: number;
         loword: number;
         activeCommand: number;
