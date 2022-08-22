@@ -168,13 +168,13 @@ namespace IRnew {
     interface IrState {
         protocol: IrProtocol;
         hasNewDatagram: boolean;
-        bitsReceived: uint64;
-        maxBitsReceived: uint64;
-        addressSectionBits: uint16;
-        commandSectionBits: uint16;
+        bitsReceived: number;
+        maxBitsReceived: number;
+        addressSectionBits: number;
+        commandSectionBits: number;
         allbitRecived: uint64;
-        hiword: uint16;
-        loword: uint16;
+        hiword: number;
+        loword: number;
         activeCommand: number;
         repeatTimeout: number;
         onIrButtonPressed: IrButtonHandler[];
