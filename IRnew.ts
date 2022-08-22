@@ -60,8 +60,8 @@ const enum IrProtocol {
     NEC = 1,
 }
 //
-//% color=#0fbc11 icon="\u272a" block="IR block"
-//% category="IR block"
+//% color=#0fbc11 icon="\u272a" block="IR block new"
+//% category="IR block new"
 namespace IRnew {
     let irState: IrState;
 
