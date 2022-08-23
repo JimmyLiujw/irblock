@@ -88,7 +88,7 @@ namespace IRnew {
             // send the header
             this.transmitBit(NEC_HDR_MARK, NEC_HDR_SPACE);
 
-            // send the address and command bits
+            // send  bits
             const section = parseInt(hex);
             basic.showString(section.toString)
             let mask = 1 << len;
