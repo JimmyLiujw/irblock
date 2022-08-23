@@ -90,7 +90,7 @@ namespace IRnew {
 
             // send  bits
             const section = parseInt(hex);
-            basic.showString(section.toString)
+            basic.showNumber(section)
             let mask = 1 << len;
             while (mask > 0) {
                 if (section & mask) {
