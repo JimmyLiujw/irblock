@@ -53,14 +53,14 @@ namespace IRnew {
             // Decompose 32bit HEX string into two manageable 16 bit numbers
             const addressSection = parseInt(hex32bit.substr(0, 6));
             const commandSection = parseInt("0x" + hex32bit.substr(6, 4));
-            const sections = [addressSection<<16+commandSection];
-            basic.showNumber(addressSection<<16+commandSection)
+            const sections = [addressSection,commandSection];
+            basic.showNumber(addressSection);
             // send the header
             this.transmitBit(NEC_HDR_MARK, NEC_HDR_SPACE);
 
             // send the address and command bits
             sections.forEach((section) => {
-                let mask = 1 << 31;
+                let mask = 1 << 15;
                 while (mask > 0) {
                     if (section & mask) {
                         this.transmitBit(NEC_BIT_MARK, NEC_HIGH_SPACE);
@@ -90,7 +90,7 @@ namespace IRnew {
 
             // send  bits
             const section = parseInt(hex);
-            basic.showNumber(section)
+            basic.showNumber(len)
             this.transmitBit(NEC_HDR_MARK, NEC_HDR_SPACE);
             let mask = 1 << len;
             while (mask > 0) {
@@ -101,7 +101,15 @@ namespace IRnew {
                 }
                 mask >>= 1;
             }
-
+            let mask = 1 << len;
+            while (mask > 0) {
+                if (section & mask) {
+                    this.transmitBit(NEC_BIT_MARK, NEC_HIGH_SPACE);
+                } else {
+                    this.transmitBit(NEC_BIT_MARK, NEC_LOW_SPACE);
+                }
+                mask >>= 1;
+            }
 
             // mark the end of transmission
             this.transmitBit(NEC_BIT_MARK, 0);
