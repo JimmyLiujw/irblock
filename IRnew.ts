@@ -137,10 +137,10 @@ namespace IRnew {
     }
 /**
      * Sends a long IR datagram using the NEC protocol.
-     * @param hex32bit a 32bit hex string, eg: 0x00FF02FD
+     * @param hex a 32bit hex string, eg: 0x00FF02FD0098
      */
     //% subcategory="IR Sender c"
-    //% blockId="makerbit_infrared_sender_send_datagram"
+    //% blockId="makerbit_infrared_sender_send_long_datagram"
     //% block="send IR datagram long %hex"
     //% weight=80
     export function sendIrDatagram(hex: string): void {
