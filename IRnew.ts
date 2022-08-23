@@ -76,7 +76,7 @@ namespace IRnew {
         }
         public sendNecLong(hex: string): void {
 
-            let len = hex.length
+            let len = hex.length - 3;
             const NEC_HDR_MARK = 9000 - this.waitCorrection;
             const NEC_HDR_SPACE = 4500 - this.waitCorrection;
             const NEC_BIT_MARK = 560 - this.waitCorrection + 50;
@@ -90,7 +90,7 @@ namespace IRnew {
 
             // send the address and command bits
             const section = parseInt(hex);
-            let mask = 1 << len-3;
+            let mask = 1 << len;
             while (mask > 0) {
                 if (section & mask) {
                     this.transmitBit(NEC_BIT_MARK, NEC_HIGH_SPACE);
