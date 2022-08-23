@@ -130,7 +130,7 @@ namespace IRnew {
     //% blockId="makerbit_infrared_sender_send_datagram"
     //% block="send IR datagram %hex32bit"
     //% weight=80
-    export function sendIrDatagram(hex32bit: string): void {
+    export function sendIrDatagramnew(hex32bit: string): void {
         if (!irLed) {
             return;
         }
