@@ -169,12 +169,13 @@ namespace IRnew {
         protocol: IrProtocol;
         hasNewDatagram: boolean;
         bitsReceived: number;
+        //addressSectionBits: number;
+        //commandSectionBits: number;
+        allSectionBits: number;
         maxBitsReceived: number;
-        addressSectionBits: number;
-        commandSectionBits: number;
         allbitRecived: number;
-        hiword: number;
-        loword: number;
+       // hiword: number;
+        //loword: number;
         activeCommand: number;
         repeatTimeout: number;
         onIrButtonPressed: IrButtonHandler[];
@@ -197,25 +198,27 @@ namespace IRnew {
 
     function appendBitToDatagram(bit: number): number {
         irState.bitsReceived += 1;
-irState.allbitRecived=(irState.allbitRecived << 1) + bit;
-       /* if (irState.bitsReceived <= 8) {
-            irState.hiword = (irState.hiword << 1) + bit;
-            if (irState.protocol === IrProtocol.Keyestudio && bit === 1) {
-                // recover from missing message bits at the beginning
-                // Keyestudio address is 0 and thus missing bits can be detected
-                // by checking for the first inverse address bit (which is a 1)
-                irState.bitsReceived = 9;
-                irState.hiword = 1;
-            }
-        } else if (irState.bitsReceived <= 16) {
-            irState.hiword = (irState.hiword << 1) + bit;
-        } else if (irState.bitsReceived <= 32) {
-            irState.loword = (irState.loword << 1) + bit;
-        }
-*/
+        irState.allbitRecived = (irState.allbitRecived << 1) + bit;
+        /* if (irState.bitsReceived <= 8) {
+             irState.hiword = (irState.hiword << 1) + bit;
+             if (irState.protocol === IrProtocol.Keyestudio && bit === 1) {
+                 // recover from missing message bits at the beginning
+                 // Keyestudio address is 0 and thus missing bits can be detected
+                 // by checking for the first inverse address bit (which is a 1)
+                 irState.bitsReceived = 9;
+                 irState.hiword = 1;
+             }
+         } else if (irState.bitsReceived <= 16) {
+             irState.hiword = (irState.hiword << 1) + bit;
+         } else if (irState.bitsReceived <= 32) {
+             irState.loword = (irState.loword << 1) + bit;
+         }
+ */
         if (irState.bitsReceived === 64) {
-           // irState.addressSectionBits = irState.hiword & 0xffff;
-           // irState.commandSectionBits = irState.loword & 0xffff;
+            // irState.addressSectionBits = irState.hiword & 0xffff;
+            // irState.commandSectionBits = irState.loword & 0xffff;
+            irState.allSectionBits = irState.allbitRecived;
+            irState.allbitRecived = 0;
             return IR_DATAGRAM;
         } else {
             return IR_INCOMPLETE;
@@ -230,7 +233,12 @@ irState.allbitRecived=(irState.allbitRecived << 1) + bit;
             // high bit
             return appendBitToDatagram(1);
         }
-if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irState.bitsReceived}
+        if (irState.bitsReceived > irState.maxBitsReceived) { irState.maxBitsReceived = irState.bitsReceived }
+        if(irState.allbitRecived>0){
+            irState.allSectionBits = irState.allbitRecived;
+            irState.allbitRecived=0;
+            return IR_DATAGRAM;
+        }
         irState.bitsReceived = 0;
 
         if (markAndSpace < 12500) {
@@ -239,9 +247,7 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
         } else if (markAndSpace < 14500) {
             // Start detected
             return IR_INCOMPLETE;
-        } else {
-            return IR_INCOMPLETE;
-        }
+        } else{return IR_INCOMPLETE;}
     }
 
     function enableIrMarkSpaceDetection(pin: DigitalPin) {
@@ -280,7 +286,7 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
                 background.schedule(irState.onIrDatagram, background.Thread.UserCallback, background.Mode.Once, 0);
             }
 
-            const newCommand = irState.allbitRecived >> 8;
+            const newCommand = irState.allSectionBits >> 8;
 
             // Process a new command
             if (newCommand !== irState.activeCommand) {
@@ -311,10 +317,13 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
             protocol: undefined,
             bitsReceived: 0,
             hasNewDatagram: false,
-            addressSectionBits: 0,
-            commandSectionBits: 0,
-            hiword: 0, // TODO replace with uint32
-            loword: 0,
+           // addressSectionBits: 0,
+           // commandSectionBits: 0,
+            maxBitsReceived: 0,
+            allbitRecived: 0,
+            allSectionBits: 0,
+          //  hiword: 0, // TODO replace with uint32
+          //  loword: 0,
             activeCommand: -1,
             repeatTimeout: 0,
             onIrButtonPressed: [],
@@ -328,7 +337,7 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
      * @param pin IR receiver pin, eg: DigitalPin.P0
      * @param protocol IR protocol, eg: IrProtocol.Keyestudio
      */
-    //% subcategory="IR Receiver c"
+    //% subcategory="IR Receiver"
     //% blockId="makerbit_infrared_connect_receiver"
     //% block="connect IR receiver at pin %pin and decode %protocol"
     //% pin.fieldEditor="gridpicker"
@@ -366,6 +375,7 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
                 }
 
                 irState.bitsReceived = 0;
+                irState.allbitRecived = 0;
                 irState.activeCommand = -1;
             }
         }
@@ -377,7 +387,7 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
      * @param action the trigger action
      * @param handler body code to run when the event is raised
      */
-    //% subcategory="IR Receiver c"
+    //% subcategory="IR Receiver"
     //% blockId=makerbit_infrared_on_ir_button
     //% block="on IR button | %button | %action"
     //% button.fieldEditor="gridpicker"
@@ -401,7 +411,7 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
     /**
      * Returns the code of the IR button that was pressed last. Returns -1 (IrButton.Any) if no button has been pressed yet.
      */
-    //% subcategory="IR Receiver c"
+    //% subcategory="IR Receiver"
     //% blockId=makerbit_infrared_ir_button_pressed
     //% block="IR button"
     //% weight=70
@@ -410,14 +420,14 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
         if (!irState) {
             return IrButton.Any;
         }
-        return irState.commandSectionBits >> 8;
+        return irState.allSectionBits >> 8;
     }
 
     /**
      * Do something when an IR datagram is received.
      * @param handler body code to run when the event is raised
      */
-    //% subcategory="IR Receiver c"
+    //% subcategory="IR Receiver"
     //% blockId=makerbit_infrared_on_ir_datagram
     //% block="on IR datagram received"
     //% weight=40
@@ -427,27 +437,30 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
     }
 
     /**
-     * Returns the IR datagram as 32-bit hexadecimal string.
+     * Returns the IR datagram as hexadecimal string.
      * The last received datagram is returned or "0x00000000" if no data has been received yet.
      */
-    //% subcategory="IR Receiver c"
+    //% subcategory="IR Receiver"
     //% blockId=makerbit_infrared_ir_datagram
     //% block="IR datagram"
     //% weight=30
     export function irDatagram(): string {
         basic.pause(0); // Yield to support background processing when called in tight loops
         initIrState();
+        /*
         return (
             "0x" +
             ir_rec_to16BitHex(irState.addressSectionBits) +
             ir_rec_to16BitHex(irState.commandSectionBits)
         );
+        */
+        return ("0x" + ir_rec_toHex(irState.allSectionBits));
     }
 
     /**
      * Returns true if any IR data was received since the last call of this function. False otherwise.
      */
-    //% subcategory="IR Receiver c"
+    //% subcategory="IR Receiver"
     //% blockId=makerbit_infrared_was_any_ir_datagram_received
     //% block="IR data was received"
     //% weight=80
@@ -461,19 +474,22 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
             return false;
         }
     }
-/**
-     * TODO: describe your function here
-     * @param value describe value here, eg: 5
-     */
-    //% block
-    export function fib(): number {
+    /**
+         * TODO: describe your function here
+         * @param value describe value here, eg: 5
+         */
+    //% subcategory="IR Receiver"
+    //% blockId=ir_datagram_received_maxbit
+    //% block="IR data maxBit"
+    //% weight=80
+    export function maxBit(): number {
         return irState.maxBitsReceived;
     }
     /**
      * Returns the command code of a specific IR button.
      * @param button the button
      */
-    //% subcategory="IR Receiver c"
+    //% subcategory="IR Receiver"
     //% blockId=makerbit_infrared_button_code
     //% button.fieldEditor="gridpicker"
     //% button.fieldOptions.columns=3
@@ -488,6 +504,19 @@ if ( irState.bitsReceived> irState.maxBitsReceived){irState.maxBitsReceived=irSt
     function ir_rec_to16BitHex(value: number): string {
         let hex = "";
         for (let pos = 0; pos < 4; pos++) {
+            let remainder = value % 16;
+            if (remainder < 10) {
+                hex = remainder.toString() + hex;
+            } else {
+                hex = String.fromCharCode(55 + remainder) + hex;
+            }
+            value = Math.idiv(value, 16);
+        }
+        return hex;
+    }
+    function ir_rec_toHex(value: number): string {
+        let hex = "";
+        while (value > 0) {
             let remainder = value % 16;
             if (remainder < 10) {
                 hex = remainder.toString() + hex;
