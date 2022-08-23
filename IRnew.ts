@@ -90,6 +90,7 @@ namespace IRnew {
 
             // send the address and command bits
             const section = parseInt(hex);
+            basic.showString(section.toString)
             let mask = 1 << len;
             while (mask > 0) {
                 if (section & mask) {
