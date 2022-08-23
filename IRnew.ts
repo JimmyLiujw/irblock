@@ -54,7 +54,7 @@ namespace IRnew {
             const addressSection = parseInt(hex32bit.substr(0, 6));
             const commandSection = parseInt("0x" + hex32bit.substr(6, 4));
             const sections = [addressSection<<16+commandSection];
-
+            basic.showNumber(addressSection<<16+commandSection)
             // send the header
             this.transmitBit(NEC_HDR_MARK, NEC_HDR_SPACE);
 
