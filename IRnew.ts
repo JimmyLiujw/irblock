@@ -39,7 +39,7 @@ namespace IRnew {
             control.waitMicros(lowMicros);
         }
 
-        public sendNec(hex32bit: string): void {
+        public sendNecnew(hex32bit: string): void {
             if (hex32bit.length != 10) {
                 return;
             }
@@ -134,7 +134,7 @@ namespace IRnew {
         if (!irLed) {
             return;
         }
-        irLed.sendNec(hex32bit);
+        irLed.sendNecnew(hex32bit);
     }
 /**
      * Sends a long IR datagram using the NEC protocol.
