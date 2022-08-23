@@ -86,11 +86,12 @@ namespace IRnew {
 
 
             // send the header
-            this.transmitBit(NEC_HDR_MARK, NEC_HDR_SPACE);
+            
 
             // send  bits
             const section = parseInt(hex);
             basic.showNumber(section)
+            this.transmitBit(NEC_HDR_MARK, NEC_HDR_SPACE);
             let mask = 1 << len;
             while (mask > 0) {
                 if (section & mask) {
@@ -127,7 +128,7 @@ namespace IRnew {
      * @param hex32bit a 32bit hex string, eg: 0x00FF02FD
      */
     //% subcategory="IR Sender c"
-    //% blockId="makerbit_infrared_sender_send_datagram"
+    //% blockId="infrared_sender_send_datagram"
     //% block="send IR datagram %hex32bit"
     //% weight=80
     export function sendIrDatagramnew(hex32bit: string): void {
