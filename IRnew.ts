@@ -112,13 +112,13 @@ namespace IRnew {
      * @param pin IR LED pin, eg: AnalogPin.P0
      */
     //% subcategory="IR Sender c"
-    //% blockId="makerbit_infrared_sender_connect"
+    //% blockId="jim_infrared_sender_connect"
     //% block="connect IR sender LED at pin %pin"
     //% pin.fieldEditor="gridpicker"
     //% pin.fieldOptions.columns=4
     //% pin.fieldOptions.tooltips="false"
     //% weight=90
-    export function connectIrSenderLed(pin: AnalogPin): void {
+    export function connectIrSenderLednew(pin: AnalogPin): void {
         irLed = new InfraredLed(pin);
     }
 
