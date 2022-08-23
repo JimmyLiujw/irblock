@@ -76,7 +76,7 @@ namespace IRnew {
         }
         public sendNecLong(hex: string): void {
 
-            let len = hex.length - 3;
+            let len = (hex.length - 2)*4-1;
             const NEC_HDR_MARK = 9000 - this.waitCorrection;
             const NEC_HDR_SPACE = 4500 - this.waitCorrection;
             const NEC_BIT_MARK = 560 - this.waitCorrection + 50;
