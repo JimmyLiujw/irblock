@@ -352,11 +352,13 @@ namespace IRnew {
         protocol: IrProtocol;
         hasNewDatagram: boolean;
         bitsReceived: number;
+        strallbit: string;
+        strallsect: string;
         //addressSectionBits: number;
         //commandSectionBits: number;
-        allSectionBits: number;
+        //allSectionBits: number;
         maxBitsReceived: number;
-        allbitRecived: number;
+        //allbitRecived: number;
         // hiword: number;
         //loword: number;
         activeCommand: number;
@@ -382,7 +384,8 @@ namespace IRnew {
     function appendBitToDatagram(bit: number): number {
         irState.bitsReceived += 1;
         if (irState.bitsReceived > irState.maxBitsReceived) { irState.maxBitsReceived = irState.bitsReceived }
-        irState.allbitRecived = (irState.allbitRecived << 1) + bit;
+        //irState.allbitRecived = (irState.allbitRecived << 1) + bit;
+        irState.strallbit += bit.toString();
         /* if (irState.bitsReceived <= 8) {
              irState.hiword = (irState.hiword << 1) + bit;
              if (irState.protocol === IrProtocol.Keyestudio && bit === 1) {
@@ -401,8 +404,11 @@ namespace IRnew {
         if (irState.bitsReceived === 64) {
             // irState.addressSectionBits = irState.hiword & 0xffff;
             // irState.commandSectionBits = irState.loword & 0xffff;
-            irState.allSectionBits = irState.allbitRecived;
-            irState.allbitRecived = 0;
+            //irState.allSectionBits = irState.allbitRecived;
+            
+            //irState.allbitRecived = 0;
+            irState.strallsect = irState.strallbit;
+            irState.strallbit = "";
             return IR_DATAGRAM;
         } else {
             return IR_INCOMPLETE;
@@ -418,9 +424,12 @@ namespace IRnew {
             return appendBitToDatagram(1);
         }
         
-        if (irState.allbitRecived > 0) {
-            irState.allSectionBits = irState.allbitRecived;
-            irState.allbitRecived = 0;
+        if (irState.bitsReceived > 0) {
+            //irState.allSectionBits = irState.allbitRecived;
+           // irState.allbitRecived = 0;
+           irState.strallsect += irState.strallbit+":";
+            irState.strallbit = "";
+            irState.bitsReceived = 0;
             return IR_DATAGRAM;
         }
         irState.bitsReceived = 0;
@@ -469,8 +478,8 @@ namespace IRnew {
             if (irState.onIrDatagram) {
                 background.schedule(irState.onIrDatagram, background.Thread.UserCallback, background.Mode.Once, 0);
             }
-
-            const newCommand = irState.allSectionBits >> 8;
+            const newCommand = 23;
+            //const newCommand = irState.allSectionBits >> 8;
 
             // Process a new command
             if (newCommand !== irState.activeCommand) {
@@ -501,11 +510,13 @@ namespace IRnew {
             protocol: undefined,
             bitsReceived: 0,
             hasNewDatagram: false,
+            strallbit="",
+            strallsect="",
             // addressSectionBits: 0,
             // commandSectionBits: 0,
             maxBitsReceived: 0,
-            allbitRecived: 0,
-            allSectionBits: 0,
+            //allbitRecived: 0,
+            //allSectionBits: 0,
             //  hiword: 0, // TODO replace with uint32
             //  loword: 0,
             activeCommand: -1,
@@ -557,9 +568,14 @@ namespace IRnew {
                 if (handler) {
                     background.schedule(handler.onEvent, background.Thread.UserCallback, background.Mode.Once, 0);
                 }
-
+                if (irState.bitsReceived > 0) {
+                    //irState.allSectionBits = irState.allbitRecived;
+                   // irState.allbitRecived = 0;
+                   irState.strallsect += irState.strallbit+":";
+                    irState.strallbit = "";
+                }
                 irState.bitsReceived = 0;
-                irState.allbitRecived = 0;
+                //irState.allbitRecived = 0;
                 irState.activeCommand = -1;
             }
         }
@@ -604,7 +620,8 @@ namespace IRnew {
         if (!irState) {
             return IrButton.Any;
         }
-        return irState.allSectionBits >> 8;
+        //return irState.allSectionBits >> 8;
+        return 23;
     }
 
     /**
@@ -638,7 +655,7 @@ namespace IRnew {
             ir_rec_to16BitHex(irState.commandSectionBits)
         );
         */
-        return ("0x" + ir_rec_toHex(irState.allSectionBits));
+        return ( irState.strallsect);
     }
 
     /**
