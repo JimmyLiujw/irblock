@@ -381,6 +381,7 @@ namespace IRnew {
 
     function appendBitToDatagram(bit: number): number {
         irState.bitsReceived += 1;
+        if (irState.bitsReceived > irState.maxBitsReceived) { irState.maxBitsReceived = irState.bitsReceived }
         irState.allbitRecived = (irState.allbitRecived << 1) + bit;
         /* if (irState.bitsReceived <= 8) {
              irState.hiword = (irState.hiword << 1) + bit;
@@ -416,7 +417,7 @@ namespace IRnew {
             // high bit
             return appendBitToDatagram(1);
         }
-        if (irState.bitsReceived > irState.maxBitsReceived) { irState.maxBitsReceived = irState.bitsReceived }
+        
         if (irState.allbitRecived > 0) {
             irState.allSectionBits = irState.allbitRecived;
             irState.allbitRecived = 0;
